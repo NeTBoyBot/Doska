@@ -16,6 +16,7 @@ using Doska.Infrastructure.BaseRepository;
 using Doska.AppServices.Services.Categories;
 using Doska.AppServices.Services.User;
 using Doska.AppServices.Services.SubCategories;
+using Doska.AppServices.Services.FavoriteAd;
 
 namespace Doska.Registrar
 {
@@ -37,7 +38,7 @@ namespace Doska.Registrar
             // Регистрация объявления
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IAdService, AdService>();
-            services.AddTransient<IAdRepository, AdRepository>();
+            services.AddTransient<IFavoriteRepository, AdRepository>();
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
@@ -47,6 +48,9 @@ namespace Doska.Registrar
 
             services.AddTransient<ISubCategoryService, SubCategoryService>();
             services.AddTransient<ISubCategoryRepository, SubcategoryRepository>();
+
+            services.AddTransient<IFavoriteAdService, FavoriteAdService>();
+            services.AddTransient<IFavoriteAdRepository, FavoriteAdRepository>();
 
             return services;
         }

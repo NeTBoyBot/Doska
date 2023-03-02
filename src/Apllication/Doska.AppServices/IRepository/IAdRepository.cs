@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Doska.AppServices.IRepository
 {
-    public interface IAdRepository
+    public interface IFavoriteRepository
     {
 
         Task<Ad> FindById(Guid id);

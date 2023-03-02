@@ -14,9 +14,9 @@ namespace Doska.Contracts.AdDto
 
         public string Description { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
 
-        public Guid SubcategoryId { get; set; }
+        public Guid? SubcategoryId { get; set; }
 
         public DateTime CreateTime { get; set; }
     }

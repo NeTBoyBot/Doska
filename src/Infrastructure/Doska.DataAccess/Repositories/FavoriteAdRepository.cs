@@ -9,36 +9,36 @@ using System.Threading.Tasks;
 
 namespace Doska.DataAccess.Repositories
 {
-    public class AdRepository : IFavoriteRepository
+    public class FavoriteAdRepository : IFavoriteAdRepository
     {
-        public readonly IBaseRepository<Ad> _baseRepository;
+        public readonly IBaseRepository<FavoriteAd> _baseRepository;
 
-        public AdRepository(IBaseRepository<Ad> baseRepository)
+        public FavoriteAdRepository(IBaseRepository<FavoriteAd> baseRepository)
         {
             _baseRepository = baseRepository;
         }
 
-        public Task AddAsync(Ad model)
+        public Task AddAsync(FavoriteAd model)
         {
             return _baseRepository.AddAsync(model);
         }
 
-        public async Task DeleteAsync(Ad model)
+        public async Task DeleteAsync(FavoriteAd model)
         {
             await _baseRepository.DeleteAsync(model);
         }
 
-        public async Task EditAdAsync(Ad edit)
+        public async Task EditFavoriteAdAsync(FavoriteAd edit)
         {
             await _baseRepository.UpdateAsync(edit);
         }
 
-        public async Task<Ad> FindById(Guid id)
+        public async Task<FavoriteAd> FindById(Guid id)
         {
             return await _baseRepository.GetByIdAsync(id);
         }
 
-        public IQueryable<Ad> GetAll()
+        public IQueryable<FavoriteAd> GetAll()
         {
             return _baseRepository.GetAll();
         }

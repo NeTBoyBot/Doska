@@ -25,7 +25,7 @@ namespace Doska.API.Controllers
 
         [HttpPost("/createUser")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> CreateAd(RegisterRequest request)
+        public async Task<IActionResult> CreateUser(RegisterRequest request)
         {
             var result = await _userService.CreateUserAsync(request);
 
@@ -34,7 +34,7 @@ namespace Doska.API.Controllers
 
         [HttpPut("/updateUser/{id}")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateAd(Guid id, RegisterRequest request)
+        public async Task<IActionResult> UpdateUser(Guid id, RegisterRequest request)
         {
             var result = await _userService.EditUserAsync(id, request);
 

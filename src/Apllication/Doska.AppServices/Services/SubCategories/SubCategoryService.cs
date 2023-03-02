@@ -22,11 +22,12 @@ namespace Doska.AppServices.Services.SubCategories
             _mapper = mapper;
         }
 
-        public async Task<Guid> CreateSubCategoryAsync(string categoryname)
+        public async Task<Guid> CreateSubCategoryAsync(string categoryname, Guid CategoryId)
         {
             var newCategory = new Domain.Subcategory
             {
-                Name = categoryname
+                Name = categoryname,
+                CategoryId = CategoryId
             };
 
             await _subcategoryRepository.AddAsync(newCategory);

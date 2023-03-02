@@ -3,6 +3,7 @@ using System;
 using Doska.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Doska.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230302094946_Favorite_Ads_Add_Relation")]
+    partial class Favorite_Ads_Add_Relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,11 +43,10 @@ namespace Doska.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("SubcategoryId")
+                    b.Property<Guid>("SubcategoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("UserId")
-                        .IsRequired()
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -69,27 +71,6 @@ namespace Doska.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("Doska.Domain.FavoriteAd", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AdId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FavoriteAd");
                 });
 
             modelBuilder.Entity("Doska.Domain.Subcategory", b =>
@@ -143,7 +124,9 @@ namespace Doska.Migrations.Migrations
                 {
                     b.HasOne("Doska.Domain.Subcategory", "Subcategory")
                         .WithMany()
-                        .HasForeignKey("SubcategoryId");
+                        .HasForeignKey("SubcategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Doska.Domain.User", "User")
                         .WithMany("Ads")
@@ -154,23 +137,6 @@ namespace Doska.Migrations.Migrations
                     b.Navigation("Subcategory");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Doska.Domain.FavoriteAd", b =>
-                {
-                    b.HasOne("Doska.Domain.Ad", "Ad")
-                        .WithMany()
-                        .HasForeignKey("AdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Doska.Domain.User", null)
-                        .WithMany("FavoriteAds")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ad");
                 });
 
             modelBuilder.Entity("Doska.Domain.Subcategory", b =>
@@ -192,8 +158,6 @@ namespace Doska.Migrations.Migrations
             modelBuilder.Entity("Doska.Domain.User", b =>
                 {
                     b.Navigation("Ads");
-
-                    b.Navigation("FavoriteAds");
                 });
 #pragma warning restore 612, 618
         }

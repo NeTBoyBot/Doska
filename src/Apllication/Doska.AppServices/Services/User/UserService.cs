@@ -14,13 +14,16 @@ namespace Doska.AppServices.Services.User
     public class UserService : IUserService
     {
         public readonly IUserRepository _userRepository;
+        public readonly IFavoriteRepository _adRepository;
         public readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper,IFavoriteRepository adRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _adRepository = adRepository;
         }
+
         public async Task<Guid> CreateUserAsync(RegisterRequest registerUser)
         {
             var newUser = _mapper.Map<Domain.User>(registerUser);

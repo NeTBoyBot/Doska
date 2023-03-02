@@ -3,6 +3,7 @@ using System;
 using Doska.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Doska.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230302100200_Make_UserId_Nullable")]
+    partial class Make_UserId_Nullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace Doska.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("SubcategoryId")
+                    b.Property<Guid>("SubcategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("UserId")
@@ -143,7 +146,9 @@ namespace Doska.Migrations.Migrations
                 {
                     b.HasOne("Doska.Domain.Subcategory", "Subcategory")
                         .WithMany()
-                        .HasForeignKey("SubcategoryId");
+                        .HasForeignKey("SubcategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Doska.Domain.User", "User")
                         .WithMany("Ads")

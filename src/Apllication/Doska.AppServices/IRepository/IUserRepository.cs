@@ -18,5 +18,6 @@ namespace Doska.AppServices.IRepository
         Task DeleteAsync(User model);
 
         Task EditUserAsync(User edit);
+
     }
 }

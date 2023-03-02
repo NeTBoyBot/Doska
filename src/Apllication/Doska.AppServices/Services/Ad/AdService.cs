@@ -14,10 +14,10 @@ namespace Doska.AppServices.Services.Ad
 {
     public class AdService : IAdService
     {
-        public readonly IAdRepository _adRepository;
+        public readonly IFavoriteRepository _adRepository;
         public readonly IMapper _mapper;
 
-        public AdService(IAdRepository adRepository,IMapper mapper)
+        public AdService(IFavoriteRepository adRepository,IMapper mapper)
         {
             _adRepository = adRepository;
             _mapper = mapper;

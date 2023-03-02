@@ -18,9 +18,9 @@ namespace Doska.Domain
 
         public User User { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
 
-        public Guid SubcategoryId { get; set; }
+        public Guid? SubcategoryId { get; set; }
 
         public DateTime CreateTime { get; set; }
     }

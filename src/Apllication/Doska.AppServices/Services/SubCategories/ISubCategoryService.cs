@@ -11,7 +11,7 @@ namespace Doska.AppServices.Services.SubCategories
     {
         Task<InfoSubCategoryResponse> GetByIdAsync(Guid id);
 
-        Task<Guid> CreateSubCategoryAsync(string categoryname);
+        Task<Guid> CreateSubCategoryAsync(string categoryname, Guid CategoryId);
 
         Task<IReadOnlyCollection<InfoSubCategoryResponse>> GetAll(int take, int skip);
 
