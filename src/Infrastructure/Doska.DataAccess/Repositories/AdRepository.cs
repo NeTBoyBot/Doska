@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Doska.DataAccess.Repositories
 {
-    public class AdRepository : IFavoriteRepository
+    public class AdRepository : IAdRepository
     {
         public readonly IBaseRepository<Ad> _baseRepository;
 

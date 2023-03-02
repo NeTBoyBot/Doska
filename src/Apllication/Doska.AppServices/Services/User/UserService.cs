@@ -14,10 +14,10 @@ namespace Doska.AppServices.Services.User
     public class UserService : IUserService
     {
         public readonly IUserRepository _userRepository;
-        public readonly IFavoriteRepository _adRepository;
+        public readonly IAdRepository _adRepository;
         public readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper,IFavoriteRepository adRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper,IAdRepository adRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;

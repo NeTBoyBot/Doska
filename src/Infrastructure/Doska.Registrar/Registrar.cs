@@ -38,7 +38,7 @@ namespace Doska.Registrar
             // Регистрация объявления
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IAdService, AdService>();
-            services.AddTransient<IFavoriteRepository, AdRepository>();
+            services.AddTransient<IAdRepository, AdRepository>();
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
