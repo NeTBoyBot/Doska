@@ -3,6 +3,7 @@ using System;
 using Doska.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Doska.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230303125430_Make_Ad_SubcategoryId_NonNullable")]
+    partial class Make_Ad_SubcategoryId_NonNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace Doska.Migrations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ad", (string)null);
+                    b.ToTable("Ad");
                 });
 
             modelBuilder.Entity("Doska.Domain.Category", b =>
@@ -67,7 +70,7 @@ namespace Doska.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Doska.Domain.FavoriteAd", b =>
@@ -88,7 +91,7 @@ namespace Doska.Migrations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FavoriteAd", (string)null);
+                    b.ToTable("FavoriteAd");
                 });
 
             modelBuilder.Entity("Doska.Domain.Subcategory", b =>
@@ -108,7 +111,7 @@ namespace Doska.Migrations.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Subcategory", (string)null);
+                    b.ToTable("Subcategory");
                 });
 
             modelBuilder.Entity("Doska.Domain.User", b =>
@@ -135,7 +138,7 @@ namespace Doska.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Doska.Domain.Ad", b =>

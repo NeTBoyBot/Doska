@@ -43,7 +43,7 @@ namespace Doska.API.Controllers
         [HttpDelete("/deleteAd/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteAd(Guid id, CreateOrUpdateAdRequest request)
+        public async Task<IActionResult> DeleteAd(Guid id)
         {
             await _adService.DeleteAsync(id);
             return Ok();

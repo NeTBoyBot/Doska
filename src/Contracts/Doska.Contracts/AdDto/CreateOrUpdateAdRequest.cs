@@ -12,7 +12,7 @@ namespace Doska.Contracts.AdDto
         
         public Guid UserId { get; set; }
 
-        public Guid? CategoryId { get; set; }
+        public Guid SubcategoryId { get; set; }
 
         public string Description { get; set; } 
 

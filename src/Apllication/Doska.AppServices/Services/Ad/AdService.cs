@@ -54,7 +54,8 @@ namespace Doska.AppServices.Services.Ad
                 Id = a.Id,
                 Name = a.Name,
                 Description = a.Description,
-                SubcategoryId = a.SubcategoryId,
+                UserId = a.UserId,
+                SubcategoryId = (Guid)a.SubcategoryId,
                 CreateTime = a.CreateTime
                 }).OrderBy(a => a.CreateTime).Skip(skip).Take(take).ToListAsync();
         }
