@@ -3,6 +3,7 @@ using System;
 using Doska.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Doska.Migrations.Migrations
 {
     [DbContext(typeof(MigrationsDbContext))]
-    partial class MigrationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230303172438_Add_Chat_And_Message_Models")]
+    partial class Add_Chat_And_Message_Models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,25 +73,6 @@ namespace Doska.Migrations.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("Doska.Domain.Chat", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("InitializerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ParticipantId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InitializerId");
-
-                    b.ToTable("Chat");
-                });
-
             modelBuilder.Entity("Doska.Domain.FavoriteAd", b =>
                 {
                     b.Property<Guid>("Id")
@@ -108,31 +92,6 @@ namespace Doska.Migrations.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("FavoriteAd");
-                });
-
-            modelBuilder.Entity("Doska.Domain.Message", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ChatId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Containment")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("SenderId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChatId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Doska.Domain.Subcategory", b =>
@@ -199,17 +158,6 @@ namespace Doska.Migrations.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Doska.Domain.Chat", b =>
-                {
-                    b.HasOne("Doska.Domain.User", "Initializer")
-                        .WithMany("Chats")
-                        .HasForeignKey("InitializerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Initializer");
-                });
-
             modelBuilder.Entity("Doska.Domain.FavoriteAd", b =>
                 {
                     b.HasOne("Doska.Domain.Ad", "Ad")
@@ -225,25 +173,6 @@ namespace Doska.Migrations.Migrations
                         .IsRequired();
 
                     b.Navigation("Ad");
-                });
-
-            modelBuilder.Entity("Doska.Domain.Message", b =>
-                {
-                    b.HasOne("Doska.Domain.Chat", "Chat")
-                        .WithMany("Messages")
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Doska.Domain.User", "Sender")
-                        .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Chat");
-
-                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Doska.Domain.Subcategory", b =>
@@ -262,16 +191,9 @@ namespace Doska.Migrations.Migrations
                     b.Navigation("Subcategories");
                 });
 
-            modelBuilder.Entity("Doska.Domain.Chat", b =>
-                {
-                    b.Navigation("Messages");
-                });
-
             modelBuilder.Entity("Doska.Domain.User", b =>
                 {
                     b.Navigation("Ads");
-
-                    b.Navigation("Chats");
 
                     b.Navigation("FavoriteAds");
                 });

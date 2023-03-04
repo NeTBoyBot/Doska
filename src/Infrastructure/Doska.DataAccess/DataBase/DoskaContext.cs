@@ -18,6 +18,7 @@ namespace Doska.DataAccess.DataBase
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new ChatConfiguration());
             modelBuilder.ApplyConfiguration(new AdConfiguration());
 
         }

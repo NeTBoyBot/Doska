@@ -21,5 +21,8 @@ namespace Doska.Domain
         public ICollection<Ad> Ads { get; set; }
 
         public ICollection<FavoriteAd> FavoriteAds { get; set; }
+
+        public ICollection<Chat> Chats { get; set; }
+
     }
 }

@@ -17,6 +17,8 @@ using Doska.AppServices.Services.Categories;
 using Doska.AppServices.Services.User;
 using Doska.AppServices.Services.SubCategories;
 using Doska.AppServices.Services.FavoriteAd;
+using Doska.AppServices.Services.Chat;
+using Doska.AppServices.Services.Message;
 
 namespace Doska.Registrar
 {
@@ -51,6 +53,12 @@ namespace Doska.Registrar
 
             services.AddTransient<IFavoriteAdService, FavoriteAdService>();
             services.AddTransient<IFavoriteAdRepository, FavoriteAdRepository>();
+
+            services.AddTransient<IChatService, ChatService>();
+            services.AddTransient<IChatRepository, ChatRepository>();
+
+            services.AddTransient<IMessageService, MessageService>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
 
             return services;
         }
