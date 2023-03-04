@@ -25,8 +25,12 @@ namespace Doska.API.Controllers
 
         [HttpPost("/createChat")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoChatResponse>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateСhat(CreateChatRequest request)
         {
+            if (request.InitializerId == request.ParticipantId)
+                return BadRequest();
+
             var result = await _chatService.CreateChatAsync(request);
 
             return Created("", result);

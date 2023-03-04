@@ -24,5 +24,7 @@ namespace Doska.Domain
 
         public ICollection<Chat> Chats { get; set; }
 
+        public ICollection<Comment> Comments { get; set; }
+
     }
 }

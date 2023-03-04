@@ -1,0 +1,20 @@
+﻿using Doska.Contracts.CommentDto;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Doska.AppServices.Services.Comment
+{
+    public interface ICommentService
+    {
+        Task<InfoCommentResponse> GetByIdAsync(Guid id);
+
+        Task<Guid> CreateCommentAsync(CreateCommentRequest createAd);
+
+        Task<IReadOnlyCollection<InfoCommentResponse>> GetAll(int take, int skip);
+
+        Task DeleteAsync(Guid id);
+    }
+}

@@ -19,6 +19,7 @@ using Doska.AppServices.Services.SubCategories;
 using Doska.AppServices.Services.FavoriteAd;
 using Doska.AppServices.Services.Chat;
 using Doska.AppServices.Services.Message;
+using Doska.AppServices.Services.Comment;
 
 namespace Doska.Registrar
 {
@@ -35,7 +36,9 @@ namespace Doska.Registrar
             services.AddScoped((Func<IServiceProvider, DbContext>)(sp => sp.GetRequiredService<DoskaContext>()));
 
             services.AddAutoMapper(typeof(UserMapProfile), typeof(AdMapProfile),
-                typeof(CategoryMapProfile), typeof(SubCategoryMapProfile));
+                typeof(CategoryMapProfile), typeof(SubCategoryMapProfile),
+                typeof(ChatMapProfile), typeof(MessageMapProfile),
+                typeof(FavoriteAdMapProfile), typeof(CommentMapProfile));
 
             // Регистрация объявления
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
@@ -59,6 +62,9 @@ namespace Doska.Registrar
 
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IMessageRepository, MessageRepository>();
+
+            services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
 
             return services;
         }
