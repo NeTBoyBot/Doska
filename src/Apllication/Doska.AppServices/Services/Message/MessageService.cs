@@ -47,6 +47,12 @@ namespace Doska.AppServices.Services.Message
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
+        public async Task<IReadOnlyCollection<string>> GetAllInChat(Guid ChatId)
+        {
+            return await _messageRepository.GetAll().Where(m => m.ChatId == ChatId)
+                .Select(a=>a.Containment).OrderBy(a => a).ToListAsync();
+        }
+
         public async Task<InfoMessageResponse> GetByIdAsync(Guid id)
         {
             var existingchat = await _messageRepository.FindById(id);

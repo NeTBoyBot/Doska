@@ -13,5 +13,7 @@ namespace Doska.Contracts.Chat
         public Guid InitializerId { get; set; }
 
         public Guid ParticipantId { get; set; }
+
+        public int MessageCount { get;set; }
     }
 }

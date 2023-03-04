@@ -17,5 +17,7 @@ namespace Doska.AppServices.Services.Message
         Task<IReadOnlyCollection<InfoMessageResponse>> GetAll(int take, int skip);
 
         Task DeleteAsync(Guid id);
+
+        Task<IReadOnlyCollection<string>> GetAllInChat(Guid ChatId);
     }
 }

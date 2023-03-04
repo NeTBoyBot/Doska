@@ -25,7 +25,7 @@ namespace Doska.AppServices.Services.Chat
         public async Task<Guid> CreateChatAsync(CreateChatRequest createChat)
         {
             var newChat = _mapper.Map<Domain.Chat>(createChat);
-            newChat.Id = Guid.NewGuid();
+            //newChat.Id = Guid.NewGuid();
             await _chatRepository.AddAsync(newChat);
 
             return newChat.Id;
@@ -44,7 +44,8 @@ namespace Doska.AppServices.Services.Chat
                 {
                     Id = a.Id,
                     InitializerId = a.InitializerId,
-                    ParticipantId = a.ParticipantId
+                    ParticipantId = a.ParticipantId,
+                    MessageCount = a.Messages.Count
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 

@@ -40,5 +40,14 @@ namespace Doska.API.Controllers
             await _messageService.DeleteAsync(id);
             return Ok();
         }
+
+        [HttpGet("/getAllMessagesInChat")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAllInChat(Guid ChatId)
+        {
+            var result = await _messageService.GetAllInChat(ChatId);
+
+            return Ok(result);
+        }
     }
 }
