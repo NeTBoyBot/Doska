@@ -1,4 +1,5 @@
 ﻿using Doska.AppServices.Services.FavoriteAd;
+using Doska.Contracts.AdDto;
 using Doska.Contracts.FavoriteAdDto;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -38,6 +39,15 @@ namespace Doska.API.Controllers
         {
             await _favoriteadService.DeleteAsync(id);
             return Ok();
+        }
+
+        [HttpGet("/allUserFavorites")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoAdResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAllUserFavorites(int take, int skip, CancellationToken token)
+        {
+            var result = await _favoriteadService.GetAllUserFavorites(take, skip, token);
+
+            return Ok(result);
         }
     }
 }

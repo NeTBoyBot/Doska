@@ -23,6 +23,15 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("/GetAllChatsForUser")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoChatResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAllUserChats(int take, int skip, CancellationToken token)
+        {
+            var result = await _chatService.GetAllUserChats(take,skip,token);
+
+            return Ok(result);
+        }
+
         [HttpPost("/createChat")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoChatResponse>), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

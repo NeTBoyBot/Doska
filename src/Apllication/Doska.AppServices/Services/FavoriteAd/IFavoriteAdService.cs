@@ -1,4 +1,5 @@
-﻿using Doska.Contracts.FavoriteAdDto;
+﻿using Doska.Contracts.Chat;
+using Doska.Contracts.FavoriteAdDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace Doska.AppServices.Services.FavoriteAd
         Task<IReadOnlyCollection<InfoFavoriteAdResponse>> GetAll(int take, int skip);
 
         Task DeleteAsync(Guid id);
+
+        Task<IReadOnlyCollection<InfoFavoriteAdResponse>> GetAllUserFavorites(int take, int skip, CancellationToken token);
     }
 }

@@ -27,9 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doska.Migrations", "src\Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doska.DataAccess", "src\Infrastructure\Doska.DataAccess\Doska.DataAccess.csproj", "{AB7658F5-E23E-40BC-807E-E6AB9BCE10AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doska.Infrastructure", "src\Infrastructure\Doska.Infrastructure\Doska.Infrastructure.csproj", "{E3EBDB11-3A8B-4C99-8301-1887480A1218}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doska.Infrastructure", "src\Infrastructure\Doska.Infrastructure\Doska.Infrastructure.csproj", "{E3EBDB11-3A8B-4C99-8301-1887480A1218}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doska.Contracts", "src\Contracts\Doska.Contracts\Doska.Contracts.csproj", "{81A39E0A-E731-4151-BB2E-3468AA1979BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doska.Contracts", "src\Contracts\Doska.Contracts\Doska.Contracts.csproj", "{81A39E0A-E731-4151-BB2E-3468AA1979BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

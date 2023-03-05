@@ -20,6 +20,7 @@ using Doska.AppServices.Services.FavoriteAd;
 using Doska.AppServices.Services.Chat;
 using Doska.AppServices.Services.Message;
 using Doska.AppServices.Services.Comment;
+using Doska.Infrastructure.Identity;
 
 namespace Doska.Registrar
 {
@@ -65,6 +66,8 @@ namespace Doska.Registrar
 
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+
+            services.AddScoped<IClaimAcessor, HttpContextClaimAcessor>();
 
             return services;
         }

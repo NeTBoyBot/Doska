@@ -1,11 +1,14 @@
 ﻿using Doska.AppServices.Services.Ad;
+using Doska.AppServices.Services.User;
 using Doska.Contracts.AdDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Doska.API.Controllers
 {
+    //TODO Test Authorize Attribute
     [ApiController]
     public class AdController : ControllerBase
     {
@@ -57,6 +60,15 @@ namespace Doska.API.Controllers
         {
             await _adService.DeleteAsync(id);
             return Ok();
+        }
+
+        [HttpGet("/allUserAds")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoAdResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAllUserAds(int take, int skip,CancellationToken token)
+        {
+            var result = await _adService.GetAllUserAds(take, skip,token);
+
+            return Ok(result);
         }
     }
 }

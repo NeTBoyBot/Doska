@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Doska.AppServices.IRepository;
+using Doska.AppServices.Services.User;
 using Doska.Contracts.AdDto;
+using Doska.Contracts.Chat;
 using Doska.Contracts.FavoriteAdDto;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,11 +17,13 @@ namespace Doska.AppServices.Services.FavoriteAd
     {
         public readonly IFavoriteAdRepository _favoriteadRepository;
         public readonly IMapper _mapper;
+        public readonly IUserService _userService;
 
-        public FavoriteAdService(IFavoriteAdRepository favoriteadRepository, IMapper mapper)
+        public FavoriteAdService(IFavoriteAdRepository favoriteadRepository, IMapper mapper,IUserService userService)
         {
             _favoriteadRepository = favoriteadRepository;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<Guid> CreateFavoriteAdAsync(InfoFavoriteAdResponse createAd)
@@ -45,6 +49,19 @@ namespace Doska.AppServices.Services.FavoriteAd
                     AdId = a.AdId,
                     UserId = a.UserId
                 }).OrderBy(a => a.AdId).Skip(skip).Take(take).ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<InfoFavoriteAdResponse>> GetAllUserFavorites(int take, int skip, CancellationToken token)
+        {
+            var userId = await _userService.GetCurrentUserId(token);
+            return await _favoriteadRepository.GetAll().Where(a => a.UserId == userId)
+                .Select(s => new InfoFavoriteAdResponse
+                {
+                   AdId= s.AdId,
+                   UserId = s.UserId,
+
+
+                }).Take(take).Skip(skip).ToListAsync();
         }
 
         public async Task<InfoFavoriteAdResponse> GetByIdAsync(Guid id)

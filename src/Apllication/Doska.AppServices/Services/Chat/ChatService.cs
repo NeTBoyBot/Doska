@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Doska.AppServices.IRepository;
+using Doska.AppServices.Services.User;
 using Doska.Contracts.AdDto;
 using Doska.Contracts.Chat;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,13 @@ namespace Doska.AppServices.Services.Chat
     {
         public readonly IChatRepository _chatRepository;
         public readonly IMapper _mapper;
+        public readonly IUserService _userService;
 
-        public ChatService(IChatRepository chatRepository, IMapper mapper)
+        public ChatService(IChatRepository chatRepository, IMapper mapper, IUserService userService)
         {
             _chatRepository = chatRepository;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<Guid> CreateChatAsync(CreateChatRequest createChat)
@@ -47,6 +50,33 @@ namespace Doska.AppServices.Services.Chat
                     ParticipantId = a.ParticipantId,
                     Messages = a.Messages.Select(s=>s.Containment).ToList()
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<InfoChatResponse>> GetAllChatsForUser(Guid UserId)
+        {
+            return await _chatRepository.GetAll()
+                .Where(c=>c.InitializerId == UserId)
+                .Select(a => new InfoChatResponse
+                {
+                    Id = a.Id,
+                    InitializerId = a.InitializerId,
+                    ParticipantId = a.ParticipantId,
+                    Messages = a.Messages.Select(s => s.Containment).ToList()
+                }).OrderBy(a => a.Id).ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<InfoChatResponse>> GetAllUserChats(int take, int skip, CancellationToken token)
+        {
+            var userId = await _userService.GetCurrentUserId(token);
+            return await _chatRepository.GetAll().Where(a => a.InitializerId == userId || a.ParticipantId == userId)
+                .Select(s => new InfoChatResponse
+                {
+                    Id = s.Id,
+                    InitializerId = s.InitializerId,
+                    ParticipantId = s.ParticipantId,   
+                    Messages = s.Messages.Select(s=>s.Containment).ToList()
+                    
+                }).Take(take).Skip(skip).ToListAsync();
         }
 
         public async Task<InfoChatResponse> GetByIdAsync(Guid id)

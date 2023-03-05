@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Doska.AppServices.IRepository;
+using Doska.AppServices.Services.User;
 using Doska.Contracts.AdDto;
 using Doska.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,13 @@ namespace Doska.AppServices.Services.Ad
     {
         public readonly IAdRepository _adRepository;
         public readonly IMapper _mapper;
+        public readonly IUserService _userService;
 
-        public AdService(IAdRepository adRepository,IMapper mapper)
+        public AdService(IAdRepository adRepository,IMapper mapper, IUserService userService)
         {
             _adRepository = adRepository;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<Guid> CreateAdAsync(CreateOrUpdateAdRequest createAd)
@@ -85,6 +88,22 @@ namespace Doska.AppServices.Services.Ad
         {
             var existingad = await _adRepository.FindById(id);
             return _mapper.Map<InfoAdResponse>(existingad);
+        }
+
+        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAllUserAds(int take, int skip,CancellationToken token)
+        {
+            var userId = await _userService.GetCurrentUserId(token);
+            return await _adRepository.GetAll().Where(a => a.UserId == userId)
+                .Select(s=>new InfoAdResponse
+            {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description,
+                    UserId = userId,
+                    Price = s.Price,
+                    SubcategoryId= (Guid)s.SubcategoryId,
+                    CreateTime = s.CreateTime
+            }).Take(take).Skip(skip).ToListAsync();
         }
     }
 }
