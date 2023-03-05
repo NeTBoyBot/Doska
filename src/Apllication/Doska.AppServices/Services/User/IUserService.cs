@@ -1,4 +1,5 @@
 ﻿using Doska.Contracts.UserDto;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Doska.AppServices.Services.User
         /// </summary>
         /// <param name="registerRequest"> Дто с логином, паролем, почтой и регионом</param>
         /// <returns></returns>
-        public Task<Guid> Register(RegisterRequest registerRequest,CancellationToken cancellationToken);
+        public Task<Guid> Register(RegisterRequest registerRequest, byte[] file,CancellationToken cancellationToken);
 
         /// <summary>
         /// Логин пользователя
@@ -40,7 +41,6 @@ namespace Doska.AppServices.Services.User
         Task DeleteAsync(Guid id);
 
         Task<InfoUserResponse> EditUserAsync(Guid Id, RegisterRequest editAd);
-
 
     }
 }

@@ -2,6 +2,7 @@
 using Doska.AppServices.IRepository;
 using Doska.Contracts.AdDto;
 using Doska.Contracts.UserDto;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -151,12 +152,12 @@ namespace Doska.AppServices.Services.User
             return result;
         }
 
-        public async Task<Guid> Register(RegisterRequest registerRequest, CancellationToken cancellationToken)
+        public async Task<Guid> Register(RegisterRequest registerRequest,byte[] file, CancellationToken cancellationToken)
         {
             var user = _mapper.Map<Domain.User>(registerRequest);
       
             var existinguser = await _userRepository.FindWhere(user => user.Name == registerRequest.Name, cancellationToken);
-
+            user.KodBase64 = Convert.ToBase64String(file);
             if (existinguser != null)
             {
                 throw new Exception($"Такой пользователь уже существует! ");
@@ -165,6 +166,7 @@ namespace Doska.AppServices.Services.User
             
             return user.Id;
         }
+
 
     }
 }

@@ -24,6 +24,15 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
+        //[HttpGet("/CategorieById")]
+        //[ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
+        //public async Task<IActionResult> GetCategoryById(Guid id)
+        //{
+        //    var result = await _categoryService.GetByIdAsync(id);
+
+        //    return Ok(result);
+        //}
+
         [HttpPost("/createCategory")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CreateAd(string categoryname)

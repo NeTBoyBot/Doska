@@ -26,5 +26,7 @@ namespace Doska.Domain
 
         public ICollection<Comment> Comments { get; set; }
 
+        public string KodBase64 { get; set; }
+
     }
 }

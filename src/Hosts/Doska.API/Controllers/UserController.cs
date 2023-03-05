@@ -2,13 +2,14 @@
 using Doska.AppServices.Services.User;
 using Doska.Contracts.UserDto;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace Doska.API.Controllers
 {
     [AllowAnonymous]
-    [ApiController]
+    //[ApiController]
     public class UserController : ControllerBase
     {
         IUserService _userService;
@@ -19,9 +20,16 @@ namespace Doska.API.Controllers
 
         [HttpPost("/Register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Register(RegisterRequest request, CancellationToken token)
+        public async Task<IActionResult> Register(RegisterRequest request,IFormFile file, CancellationToken token)
         {
-            var user = await _userService.Register(request, token);
+            byte[] photo;
+            await using (var ms = new MemoryStream())
+            await using (var fs = file.OpenReadStream())
+            {
+                await fs.CopyToAsync(ms);
+                photo = ms.ToArray();
+            }
+            var user = await _userService.Register(request,photo, token);
             return Created("",user);
         }
 
