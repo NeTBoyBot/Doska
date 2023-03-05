@@ -45,18 +45,39 @@ namespace Doska.AppServices.Services.Ad
 
             return _mapper.Map<InfoAdResponse>(editAd);
         }
-
-        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip)
+        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAdFiltered(string? name, Guid? subcategoryId)
         {
-            return await _adRepository.GetAll()
-                .Select(a=>new InfoAdResponse
+            var query = _adRepository.GetAll();
+
+            if (!string.IsNullOrEmpty(name))
+                query = query.Where(q => q.Name == name);
+
+            if (subcategoryId != null && subcategoryId != Guid.Empty)
+                query = query.Where(q => q.SubcategoryId == subcategoryId);
+
+            return await query.Select(a => new InfoAdResponse
             {
                 Id = a.Id,
                 Name = a.Name,
                 Description = a.Description,
                 UserId = a.UserId,
                 SubcategoryId = (Guid)a.SubcategoryId,
-                CreateTime = a.CreateTime
+                CreateTime = a.CreateTime,
+                Price = a.Price
+            }).OrderBy(a => a.CreateTime).ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip)
+        {
+            return await _adRepository.GetAll()
+                .Select(a => new InfoAdResponse
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Description = a.Description,
+                    UserId = a.UserId,
+                    SubcategoryId = (Guid)a.SubcategoryId,
+                    CreateTime = a.CreateTime
                 }).OrderBy(a => a.CreateTime).Skip(skip).Take(take).ToListAsync();
         }
 

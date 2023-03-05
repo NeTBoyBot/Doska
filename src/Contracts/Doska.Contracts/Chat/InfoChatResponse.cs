@@ -14,6 +14,6 @@ namespace Doska.Contracts.Chat
 
         public Guid ParticipantId { get; set; }
 
-        public int MessageCount { get;set; }
+        public ICollection<string> Messages { get;set; }
     }
 }

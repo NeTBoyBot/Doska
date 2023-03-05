@@ -3,6 +3,7 @@ using Doska.AppServices.IRepository;
 using Doska.AppServices.Services.Categories;
 using Doska.Contracts.AdDto;
 using Doska.Contracts.CategoryDto;
+using Doska.Contracts.SubCategoryDto;
 using Doska.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
@@ -60,8 +61,12 @@ namespace Doska.AppServices.Services.Ad
                 .Select(a => new InfoCategoryResponse
                 {
                     Id = a.Id,
-                    Name = a.Name
-                    
+                    Name = a.Name,
+                    Subcategories = a.Subcategories.Select(s => new InfoSubCategoryResponse
+                    {
+                        Id = s.Id,
+                        Name = s.Name
+                    }).ToList()
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 

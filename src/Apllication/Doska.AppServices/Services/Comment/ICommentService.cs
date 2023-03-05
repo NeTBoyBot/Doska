@@ -11,6 +11,8 @@ namespace Doska.AppServices.Services.Comment
     {
         Task<InfoCommentResponse> GetByIdAsync(Guid id);
 
+        Task<ICollection<InfoCommentResponse>> GetAllCommentsForUser(Guid userId);
+
         Task<Guid> CreateCommentAsync(CreateCommentRequest createAd);
 
         Task<IReadOnlyCollection<InfoCommentResponse>> GetAll(int take, int skip);

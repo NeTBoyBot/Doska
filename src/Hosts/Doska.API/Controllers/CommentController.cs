@@ -22,9 +22,18 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("/CommentsForUser")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoCommentResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCommentsForUser(Guid userId)
+        {
+            var result = await _commentService.GetAllCommentsForUser(userId);
+
+            return Ok(result);
+        }
+
         [HttpPost("/createComment")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCommentResponse>), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> CreateAd(CreateCommentRequest request)
+        public async Task<IActionResult> CreateComment(CreateCommentRequest request)
         {
             var result = await _commentService.CreateCommentAsync(request);
 

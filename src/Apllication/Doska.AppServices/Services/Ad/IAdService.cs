@@ -18,5 +18,7 @@ namespace Doska.AppServices.Services.Ad
         Task DeleteAsync(Guid id);
 
         Task<InfoAdResponse> EditAdAsync(Guid Id,CreateOrUpdateAdRequest editAd);
+
+        Task<IReadOnlyCollection<InfoAdResponse>> GetAdFiltered(string? name, Guid? subcategoryId);
     }
 }

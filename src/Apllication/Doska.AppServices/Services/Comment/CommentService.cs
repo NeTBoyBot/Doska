@@ -47,6 +47,17 @@ namespace Doska.AppServices.Services.Comment
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
+        public async Task<ICollection<InfoCommentResponse>> GetAllCommentsForUser(Guid userId)
+        {
+            return await _commentRepository.GetAll().Where(a=>a.UserId == userId)
+                .Select(a => new InfoCommentResponse
+                {
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    Containment = a.Containment
+                }).OrderBy(a => a.Id).ToListAsync();
+        }
+
         public async Task<InfoCommentResponse> GetByIdAsync(Guid id)
         {
             var existingchat = await _commentRepository.FindById(id);

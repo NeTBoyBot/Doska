@@ -2,6 +2,7 @@
 using Doska.Contracts.AdDto;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Doska.API.Controllers
 {
@@ -18,6 +19,15 @@ namespace Doska.API.Controllers
         public async Task<IActionResult> GetAll(int take, int skip)
         {
             var result = await _adService.GetAll(take, skip);
+
+            return Ok(result);
+        }
+
+        [HttpGet("/GetAdFiltered")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoAdResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAdFiltered(string? name, Guid? categoryId)
+        {
+            var result = await _adService.GetAdFiltered(name,categoryId);
 
             return Ok(result);
         }
