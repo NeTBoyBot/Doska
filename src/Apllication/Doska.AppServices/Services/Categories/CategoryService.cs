@@ -64,12 +64,20 @@ namespace Doska.AppServices.Services.Ad
                 {
                     Id = a.Id,
                     Name = a.Name,
-                    Subcategories = a.Subcategories.Select(s => new InfoCategoryResponse
+                    Subcategories = (ICollection<InfoCategoryResponse>)a.Subcategories.Select(s => new InfoCategoryResponse
                     {
                         Id = s.Id,
                         Name = s.Name,
-                        ParentId = s.ParenCategoryId
-                    }).ToList()
+                        ParentId = s.ParenCategoryId,
+                        Subcategories = s.Subcategories.Select(s => new InfoCategoryResponse
+                        {
+                            Id = s.Id,
+                            Name = s.Name,
+                            ParentId = s.ParenCategoryId
+                        }).ToList()
+                    
+
+                    })
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
