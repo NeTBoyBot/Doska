@@ -8,12 +8,12 @@ namespace Doska.Domain
 {
     public class Subcategory
     {
-        public Guid Id { get; set; }
+        //public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        //public string Name { get; set; }
 
-        public Guid CategoryId { get; set; }
-        
-        public Category Category { get; set; }
+        //public Guid CategoryId { get; set; }
+
+        //public Category Category { get; set; }
     }
 }

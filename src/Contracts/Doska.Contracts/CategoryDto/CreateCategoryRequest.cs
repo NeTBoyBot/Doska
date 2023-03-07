@@ -1,5 +1,4 @@
-﻿using Doska.Contracts.SubCategoryDto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace Doska.Contracts.CategoryDto
 {
-    public class InfoCategoryResponse
+    public class CreateCategoryRequest
     {
-        public Guid Id { get; set; }
-
         public Guid? ParentId { get; set; }
 
         public string Name { get; set; }
-
-        public ICollection<InfoCategoryResponse> Subcategories { get; set; }
     }
 }

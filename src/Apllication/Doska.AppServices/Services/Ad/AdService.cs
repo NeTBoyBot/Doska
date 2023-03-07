@@ -56,7 +56,7 @@ namespace Doska.AppServices.Services.Ad
                 query = query.Where(q => q.Name == name);
 
             if (subcategoryId != null && subcategoryId != Guid.Empty)
-                query = query.Where(q => q.SubcategoryId == subcategoryId);
+                query = query.Where(q => q.СategoryId == subcategoryId);
 
             return await query.Select(a => new InfoAdResponse
             {
@@ -64,7 +64,7 @@ namespace Doska.AppServices.Services.Ad
                 Name = a.Name,
                 Description = a.Description,
                 UserId = a.UserId,
-                SubcategoryId = (Guid)a.SubcategoryId,
+                SubcategoryId = (Guid)a.СategoryId,
                 CreateTime = a.CreateTime,
                 Price = a.Price
             }).OrderBy(a => a.CreateTime).ToListAsync();
@@ -79,7 +79,7 @@ namespace Doska.AppServices.Services.Ad
                     Name = a.Name,
                     Description = a.Description,
                     UserId = a.UserId,
-                    SubcategoryId = (Guid)a.SubcategoryId,
+                    SubcategoryId = (Guid)a.СategoryId,
                     CreateTime = a.CreateTime
                 }).OrderBy(a => a.CreateTime).Skip(skip).Take(take).ToListAsync();
         }
@@ -101,7 +101,7 @@ namespace Doska.AppServices.Services.Ad
                     Description = s.Description,
                     UserId = userId,
                     Price = s.Price,
-                    SubcategoryId= (Guid)s.SubcategoryId,
+                    SubcategoryId= (Guid)s.СategoryId,
                     CreateTime = s.CreateTime
             }).Take(take).Skip(skip).ToListAsync();
         }

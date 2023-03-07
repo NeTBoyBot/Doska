@@ -12,7 +12,7 @@ namespace Doska.AppServices.Services.Categories
     {
         Task<InfoCategoryResponse> GetByIdAsync(Guid id);
 
-        Task<Guid> CreateCategoryAsync(string categoryname);
+        Task<Guid> CreateCategoryAsync(CreateCategoryRequest request);
 
         Task<IReadOnlyCollection<InfoCategoryResponse>> GetAll(int take, int skip);
 

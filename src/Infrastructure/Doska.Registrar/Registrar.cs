@@ -52,8 +52,8 @@ namespace Doska.Registrar
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
 
-            services.AddTransient<ISubCategoryService, SubCategoryService>();
-            services.AddTransient<ISubCategoryRepository, SubcategoryRepository>();
+            //services.AddTransient<ISubCategoryService, SubCategoryService>();
+            //services.AddTransient<ISubCategoryRepository, SubcategoryRepository>();
 
             services.AddTransient<IFavoriteAdService, FavoriteAdService>();
             services.AddTransient<IFavoriteAdRepository, FavoriteAdRepository>();

@@ -12,6 +12,10 @@ namespace Doska.Domain
 
         public string Name { get; set; }
 
-        public ICollection<Subcategory> Subcategories { get; set; }
+        public Category? ParenCategory { get; set; }
+
+        public Guid? ParenCategoryId { get; set; }
+
+        public ICollection<Category> Subcategories { get; set; }
     }
 }

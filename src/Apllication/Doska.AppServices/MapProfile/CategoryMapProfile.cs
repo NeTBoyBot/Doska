@@ -15,6 +15,7 @@ namespace Doska.AppServices.MapProfile
         public CategoryMapProfile()
         {
             CreateMap<Category,InfoCategoryResponse>().ReverseMap();
+            CreateMap<Category, CreateCategoryRequest>().ReverseMap();
         }
     }
 }

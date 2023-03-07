@@ -14,7 +14,7 @@ namespace Doska.Domain
 
         public string Description { get; set; }
 
-        public Subcategory Subcategory { get; set; }
+        public Category Subcategory { get; set; }
 
         public User User { get; set; }
 
@@ -22,7 +22,7 @@ namespace Doska.Domain
 
         public Guid UserId { get; set; }
         
-        public Guid? SubcategoryId { get; set; }
+        public Guid? СategoryId { get; set; }
 
         public DateTime CreateTime { get; set; }
     }

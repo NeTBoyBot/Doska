@@ -7,7 +7,6 @@ using System.Net;
 
 namespace Doska.API.Controllers
 {
-    [ApiController]
     public class CategoryController : ControllerBase
     {
         ICategoryService _categoryService;
@@ -35,9 +34,9 @@ namespace Doska.API.Controllers
 
         [HttpPost("/createCategory")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateAd(string categoryname)
+        public async Task<IActionResult> CreateAd(CreateCategoryRequest request)
         {
-            var result = await _categoryService.CreateCategoryAsync(categoryname);
+            var result = await _categoryService.CreateCategoryAsync(request);
 
             return Created("", result);
         }

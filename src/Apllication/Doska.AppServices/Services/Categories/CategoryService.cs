@@ -26,11 +26,13 @@ namespace Doska.AppServices.Services.Ad
             _mapper = mapper;
         }
 
-        public async Task<Guid> CreateCategoryAsync(string categoryname)
+        public async Task<Guid> CreateCategoryAsync(CreateCategoryRequest request)
         {
             var newCategory = new Domain.Category
             {
-                Name = categoryname
+                Name = request.Name,
+                ParenCategoryId = request.ParentId
+
             };
            
             await _categoryRepository.AddAsync(newCategory);
@@ -57,15 +59,16 @@ namespace Doska.AppServices.Services.Ad
 
         public async Task<IReadOnlyCollection<InfoCategoryResponse>> GetAll(int take, int skip)
         {
-            return await _categoryRepository.GetAll()
+            return await _categoryRepository.GetAll().Where(p => p.ParenCategoryId == null)
                 .Select(a => new InfoCategoryResponse
                 {
                     Id = a.Id,
                     Name = a.Name,
-                    Subcategories = a.Subcategories.Select(s => new InfoSubCategoryResponse
+                    Subcategories = a.Subcategories.Select(s => new InfoCategoryResponse
                     {
                         Id = s.Id,
-                        Name = s.Name
+                        Name = s.Name,
+                        ParentId = s.ParenCategoryId
                     }).ToList()
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
