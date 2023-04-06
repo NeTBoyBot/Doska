@@ -120,24 +120,60 @@ namespace Doska.AppServices.Services.User
 
         public async Task<string> Login(LoginRequest loginRequest, CancellationToken cancellationToken)
         {
-            var existingUser = await _userRepository.FindWhere(user => user.Name == loginRequest.Name,cancellationToken); 
+            //var existingUser = await _userRepository.FindWhere(user => user.Name == loginRequest.Name,cancellationToken); 
 
+            //if (existingUser == null)
+            //{
+            //    throw new Exception($"Пользователь с логином '{loginRequest.Name}' не существует");
+            //}
+
+            //if (!existingUser.Password.Equals(loginRequest.Password))
+            //{
+            //    throw new Exception($"Указан неверный логин или пароль");
+            //}
+
+            //var claims = new List<Claim>
+            //{
+            //    new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
+            //    new Claim(ClaimTypes.Name, existingUser.Name)
+            //   // new Claim(ClaimTypes.Email, existingUser.Email)
+            //};
+
+            //var secretKey = _configuration["Token:SecretKey"];
+
+            //var token = new JwtSecurityToken
+            //    (
+            //    claims: claims,
+            //    expires: DateTime.UtcNow.AddDays(1),
+            //    notBefore: DateTime.UtcNow,
+            //    signingCredentials: new SigningCredentials(
+            //        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+            //        SecurityAlgorithms.HmacSha256
+            //        )
+            //    );
+
+            //var result = new JwtSecurityTokenHandler().WriteToken(token);
+
+            //return result;
+
+            var existingUser = await _userRepository.FindWhere(user => user.Name == loginRequest.Name, cancellationToken);
+            //var existingUser = await _userManager.FindByIdAsync(user.Id.ToString());
             if (existingUser == null)
-            {
-                throw new Exception($"Пользователь с логином '{loginRequest.Name}' не существует");
-            }
+                throw new Exception($"Пользователь с именем '{loginRequest.Name}' не существует");
 
-            if (!existingUser.Password.Equals(loginRequest.Password))
-            {
-                throw new Exception($"Указан неверный логин или пароль");
-            }
+            var checkPass = await _userManager.CheckPasswordAsync(existingUser, loginRequest.Password);
+            if (!checkPass)
+                throw new Exception("Неверное имя или пароль");
 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
-                new Claim(ClaimTypes.Name, existingUser.Name)
-               // new Claim(ClaimTypes.Email, existingUser.Email)
+                new Claim(ClaimTypes.Name, existingUser.UserName)
             };
+
+            var userRole = await _userManager.GetRolesAsync(existingUser);
+            claims.AddRange(userRole.Select(role => new Claim(ClaimTypes.Role, role)));
+
 
             var secretKey = _configuration["Token:SecretKey"];
 
@@ -148,11 +184,14 @@ namespace Doska.AppServices.Services.User
                 notBefore: DateTime.UtcNow,
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-                    SecurityAlgorithms.HmacSha256
-                    )
-                );
+                    SecurityAlgorithms.HmacSha256)
+               );
 
             var result = new JwtSecurityTokenHandler().WriteToken(token);
+
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException();
+
 
             return result;
         }
@@ -165,11 +204,15 @@ namespace Doska.AppServices.Services.User
             var existinguser = await _userRepository.FindWhere(user => user.Name == registerRequest.Name, cancellationToken);
             if (existinguser != null)
             {
-                throw new Exception($"Такой пользователь уже существует! ");
+                throw new Exception($"Такой пользователь уже существует! {existinguser.Name}");
             }
 
             var newUser = new Domain.User
             {
+                Name = registerRequest.Name,
+                Password = registerRequest.Password,
+                Region = registerRequest.Region,
+                KodBase64 = Convert.ToBase64String(file),
                 UserName = registerRequest.Name,
                 Email = registerRequest.Email,
                 PasswordHash = registerRequest.Password,
