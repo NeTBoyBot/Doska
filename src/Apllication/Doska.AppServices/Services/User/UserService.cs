@@ -2,7 +2,9 @@
 using Doska.AppServices.IRepository;
 using Doska.Contracts.AdDto;
 using Doska.Contracts.UserDto;
+using Doska.Domain;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -23,14 +25,17 @@ namespace Doska.AppServices.Services.User
         public IConfiguration _configuration;
         public IClaimAcessor claimAccessor;
         public readonly IMapper _mapper;
+        public readonly UserManager<Domain.User> _userManager;
 
-        public UserService(IUserRepository userRepository, IMapper mapper,IAdRepository adRepository,IClaimAcessor acessor,IConfiguration conf)
+        public UserService(IUserRepository userRepository, IMapper mapper,IAdRepository adRepository,
+            IClaimAcessor acessor,IConfiguration conf, UserManager<Domain.User> userManager)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _adRepository = adRepository;
             claimAccessor = acessor;
             _configuration = conf;
+            _userManager = userManager;
         }
 
         public async Task<Guid> CreateUserAsync(RegisterRequest registerUser)
@@ -154,17 +159,35 @@ namespace Doska.AppServices.Services.User
 
         public async Task<Guid> Register(RegisterRequest registerRequest,byte[] file, CancellationToken cancellationToken)
         {
-            var user = _mapper.Map<Domain.User>(registerRequest);
-      
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException();
+
             var existinguser = await _userRepository.FindWhere(user => user.Name == registerRequest.Name, cancellationToken);
-            user.KodBase64 = Convert.ToBase64String(file);
             if (existinguser != null)
             {
                 throw new Exception($"Такой пользователь уже существует! ");
             }
-            await _userRepository.AddAsync(user);
+
+            var newUser = new Domain.User
+            {
+                UserName = registerRequest.Name,
+                Email = registerRequest.Email,
+                PasswordHash = registerRequest.Password,
+                PhoneNumber = registerRequest.PhoneNumber
+            };
+
+            var resRegister = await _userManager.CreateAsync(newUser, registerRequest.Password);
+
+            if (resRegister.Succeeded)
+                await _userManager.AddToRoleAsync(newUser, registerRequest.Role != null ? registerRequest.Role : "User");
+           
+            var user = _mapper.Map<Domain.User>(registerRequest); { user.Id = newUser.Id; }
+            user.KodBase64 = Convert.ToBase64String(file);
             
+            await _userRepository.AddAsync(user);
+
             return user.Id;
+
         }
 
 

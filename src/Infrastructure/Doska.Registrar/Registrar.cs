@@ -21,6 +21,10 @@ using Doska.AppServices.Services.Chat;
 using Doska.AppServices.Services.Message;
 using Doska.AppServices.Services.Comment;
 using Doska.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 
 namespace Doska.Registrar
 {
@@ -68,6 +72,10 @@ namespace Doska.Registrar
             services.AddTransient<ICommentRepository, CommentRepository>();
 
             services.AddScoped<IClaimAcessor, HttpContextClaimAcessor>();
+
+            services.AddIdentity<Domain.User, IdentityRole>()
+   .AddEntityFrameworkStores<DoskaContext>()
+   .AddDefaultTokenProviders();
 
             return services;
         }
