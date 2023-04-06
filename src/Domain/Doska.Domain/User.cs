@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Doska.Domain
 {
-    public class User
+    public class User : Microsoft.AspNetCore.Identity.IdentityUser
     {
         public Guid Id { get; set; }
 
