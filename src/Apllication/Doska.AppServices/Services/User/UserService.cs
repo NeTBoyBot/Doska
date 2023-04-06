@@ -82,17 +82,15 @@ namespace Doska.AppServices.Services.User
             var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrWhiteSpace(claimId))
-            {
                 return null;
-            }
+            
 
             var id = Guid.Parse(claimId);
             var user = await _userRepository.FindById(id);
 
             if (user == null)
-            {
                 throw new Exception($"Не найдент пользователь с идентификаторром {id}");
-            }
+            
 
             return _mapper.Map<InfoUserResponse>(user);
         }
@@ -119,45 +117,9 @@ namespace Doska.AppServices.Services.User
         }
 
         public async Task<string> Login(LoginRequest loginRequest, CancellationToken cancellationToken)
-        {
-            //var existingUser = await _userRepository.FindWhere(user => user.Name == loginRequest.Name,cancellationToken); 
-
-            //if (existingUser == null)
-            //{
-            //    throw new Exception($"Пользователь с логином '{loginRequest.Name}' не существует");
-            //}
-
-            //if (!existingUser.Password.Equals(loginRequest.Password))
-            //{
-            //    throw new Exception($"Указан неверный логин или пароль");
-            //}
-
-            //var claims = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
-            //    new Claim(ClaimTypes.Name, existingUser.Name)
-            //   // new Claim(ClaimTypes.Email, existingUser.Email)
-            //};
-
-            //var secretKey = _configuration["Token:SecretKey"];
-
-            //var token = new JwtSecurityToken
-            //    (
-            //    claims: claims,
-            //    expires: DateTime.UtcNow.AddDays(1),
-            //    notBefore: DateTime.UtcNow,
-            //    signingCredentials: new SigningCredentials(
-            //        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-            //        SecurityAlgorithms.HmacSha256
-            //        )
-            //    );
-
-            //var result = new JwtSecurityTokenHandler().WriteToken(token);
-
-            //return result;
+        { 
 
             var existingUser = await _userRepository.FindWhere(user => user.Name == loginRequest.Name, cancellationToken);
-            //var existingUser = await _userManager.FindByIdAsync(user.Id.ToString());
             if (existingUser == null)
                 throw new Exception($"Пользователь с именем '{loginRequest.Name}' не существует");
 
